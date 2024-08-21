@@ -18,16 +18,6 @@
         window.onload = function() {
         const onNow = document.getElementById('onNow');
 
-        // Fetch the content of data.txt
-        fetch('data.txt')
-            .then(response => response.text())
-            .then(content => {
-                onNow.innerText = content;
-            })
-            .catch(error => {
-                onNow.innerText = 'Error loading file: ' + error.message;
-            });
-        
         // Display dates    
         const currentDate = new Date().toISOString().split('T')[0];
         document.getElementById('today').innerText = ` [${currentDate} 12 AM - 12 AM]`;
@@ -36,6 +26,24 @@
         tomorrow.setDate(today.getDate() + 1);
         const formattedTomorrow = tomorrow.toISOString().split('T')[0];
         document.getElementById('tomorrow').innerText = ` [${formattedTomorrow} 12 AM - 12 AM]`;
+
+        // Fetch the content of data.txt
+        fetch('data.txt')
+            .then(response => response.text())
+            .then(content => {
+                const lines = content.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    const nowParts = lines[i].split(';');
+                    if (nowParts[0] === currentDate) {
+                        onNow.innerText = nowParts[1].trim();
+                        const nextParts = lines[i+1].split(';');
+                        upNext.innerText = nextParts[1].trim();   
+                    }
+                }
+            })
+            .catch(error => {
+                onNow.innerText = 'Error loading file: ' + error.message;
+            });
         };
     </script>
 </body>
