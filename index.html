@@ -10,22 +10,32 @@
 </head>
 <body>
     <h1>Live TV</h1>
-    <pre id="onNow"></pre>
-    <pre id="upNext">Coming soon</pre>
+    <span>On now: </span><span id="onNow"></span><span id = "today"></span>
+    <br><br>
+    <span>Up Next: </span><span id="upNext">Coming soon</span><span id = "tomorrow"></span>
 
     <script>
         window.onload = function() {
-            const onNow = document.getElementById('onNow');
+        const onNow = document.getElementById('onNow');
 
-            // Fetch the content of data.txt
-            fetch('data.txt')
-                .then(response => response.text())
-                .then(content => {
-                    onNow.innerText = content;
-                })
-                .catch(error => {
-                    onNow.innerText = 'Error loading file: ' + error.message;
-                });
+        // Fetch the content of data.txt
+        fetch('data.txt')
+            .then(response => response.text())
+            .then(content => {
+                onNow.innerText = content;
+            })
+            .catch(error => {
+                onNow.innerText = 'Error loading file: ' + error.message;
+            });
+        
+        // Display dates    
+        const currentDate = new Date().toISOString().split('T')[0];
+        document.getElementById('today').innerText = ` [${currentDate} 12 AM - 12 AM]`;
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        const formattedTomorrow = tomorrow.toISOString().split('T')[0];
+        document.getElementById('tomorrow').innerText = ` [${formattedTomorrow} 12 AM - 12 AM]`;
         };
     </script>
 </body>
