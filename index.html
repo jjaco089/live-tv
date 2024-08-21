@@ -10,18 +10,20 @@
 </head>
 <body>
     <h1>Live TV</h1>
-    <table>
-        <tr>
-            <td>On Now ➡️</td>
-            <td id="onNow"></td>
-            <td id="today"></td>
-        </tr>
-        <tr>
-            <td>Up Next ➡️</td>
-            <td id="upNext"></td>
-            <td id="tomorrow"></td>
-        </tr>
-    </table>
+    <div id="screen">
+        <table>
+            <tr>
+                <td>On Now ➡️</td>
+                <td id="onNow"></td>
+                <td id="today"></td>
+            </tr>
+            <tr>
+                <td>Up Next ➡️</td>
+                <td id="upNext"></td>
+                <td id="tomorrow"></td>
+            </tr>
+        </table>
+    </div>
 
     <script>
         window.onload = function() {
@@ -42,14 +44,29 @@
             .then(response => response.text())
             .then(content => {
                 const lines = content.split('\n');
+                let onAir = false;
                 for (let i = 0; i < lines.length; i++) {
+                    const nowParts = lines[i].split(';');
+                    if (nowParts[0] === currentDate) {
+                        onAir = true;
+                        break;
+                    }
+                }
+                if (onAir === true) {
+                    for (let i = 0; i < lines.length; i++) {
                     const nowParts = lines[i].split(';');
                     if (nowParts[0] === currentDate) {
                         onNow.innerText = nowParts[1].trim();
                         const nextParts = lines[i+1].split(';');
-                        upNext.innerText = nextParts[1].trim();   
+                        upNext.innerText = nextParts[1].trim();
+                    }
                     }
                 }
+                else {
+                    onNow.innerText = "Stay tuned!";
+                    upNext.innerText = "Stay tuned!";
+                }
+                
             })
             .catch(error => {
                 onNow.innerText = 'Error loading file: ' + error.message;
