@@ -10,25 +10,35 @@
 </head>
 <body>
     <h1>Live TV</h1>
-    <span>On now: </span><span id="onNow"></span><span id = "today"></span>
-    <br><br>
-    <span>Up Next: </span><span id="upNext">Coming soon</span><span id = "tomorrow"></span>
+    <table>
+        <tr>
+            <td>On Now ➡️</td>
+            <td id="onNow"></td>
+            <td id="today"></td>
+        </tr>
+        <tr>
+            <td>Up Next ➡️</td>
+            <td id="upNext"></td>
+            <td id="tomorrow"></td>
+        </tr>
+    </table>
 
     <script>
         window.onload = function() {
-        const onNow = document.getElementById('onNow');
-
+    
         // Display dates    
         const currentDate = new Date().toISOString().split('T')[0];
-        document.getElementById('today').innerText = ` [${currentDate} 12 AM - 12 AM]`;
+        document.getElementById('today').innerText = `⌚ [${currentDate} 12 AM - 12 AM]`;
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
         const formattedTomorrow = tomorrow.toISOString().split('T')[0];
-        document.getElementById('tomorrow').innerText = ` [${formattedTomorrow} 12 AM - 12 AM]`;
+        document.getElementById('tomorrow').innerText = `⌚ [${formattedTomorrow} 12 AM - 12 AM]`;
 
-        // Fetch the content of data.txt
-        fetch('data.txt')
+        // Fetch the content of playlist.txt
+        const onNow = document.getElementById('onNow');
+        const upNext = document.getElementById('upNext');
+        fetch('playlist.txt')
             .then(response => response.text())
             .then(content => {
                 const lines = content.split('\n');
