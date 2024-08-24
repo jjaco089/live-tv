@@ -30,12 +30,12 @@
     
         // Display dates    
         const currentDate = new Date().toISOString().split('T')[0];
-        document.getElementById('today').innerText = `⌚ [${currentDate} 12 AM - 12 AM]`;
+        document.getElementById('today').innerText = `⌚ [${currentDate} 12 AM - 12 AM UTC]`;
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
         const formattedTomorrow = tomorrow.toISOString().split('T')[0];
-        document.getElementById('tomorrow').innerText = `⌚ [${formattedTomorrow} 12 AM - 12 AM]`;
+        document.getElementById('tomorrow').innerText = `⌚ [${formattedTomorrow} 12 AM - 12 AM UTC]`;
 
         // Fetch the content of playlist.txt
         const onNow = document.getElementById('onNow');
